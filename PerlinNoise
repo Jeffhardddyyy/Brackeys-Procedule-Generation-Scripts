@@ -1,0 +1,66 @@
+using UnityEngine;
+
+public class PerlinNoise : MonoBehaviour {
+    //apply to object that you want to have randomly generated
+    //the object does not need a collider but it does 
+    //have to have a material that is contains a texture that is Unlit
+    //was made in the episode 1
+
+    public int width = 256;     //the width
+    public int height = 256;    //the height
+
+    public float Scale = 20;    //The higher it is, the more it zooms out
+
+    public float offsetX = 100;                 //Basically a "position"
+    public float offsetY = 100;                 //Basically a "position"
+    
+
+    public void Start()
+    {//On Start
+        offsetX = Random.Range(0, 99999);     //set [offsetX] to a random number so it can be random every time
+        offsetY = Random.Range(0, 99999);     //set [offsetY] to a random number so it can be random every time
+    }
+
+    void Update()
+    {//It was changed from Start to update in video so you can update it within the editor during playtime.
+        Renderer renderer = GetComponent<Renderer>();   //get the compononent "Renderer" and set it to a var named renderer
+        renderer.material.mainTexture = GenerateTexture();      //set the main texture to whatever the function "GenerateTexture" returns
+
+    }
+
+    Texture2D GenerateTexture()
+    {
+        Texture2D texture = new Texture2D(width, height);       //make new texture with [width] and [height]
+
+
+        for (int x = 0; x < 256 ; x++)
+        {//as long as x is less than 256, increase x and run the code within the for loop
+
+            for(int y = 0; y < height; y++)
+            {//as long as y is less than 256, and x is less than 256, increase y and run the code within the for loop
+
+                Color color = CalculateColor(x, y); //run the Calculate Color function to decide the color
+                texture.SetPixel(x, y, color);      //place a pixel at [x] and [y] with the [color]
+
+            }
+
+        }
+
+        texture.Apply();     //applies the texture
+        return texture;      //returns the texture
+    }
+
+    Color CalculateColor(int x, int y)
+    {
+        float xCord = (float)x / width * Scale * offsetX;         //set xCord to x/width, and make sure it is a dicimal. [With Scale]
+        float yCord = (float)y / height * Scale * offsetY;        //set yCord to y/height, and make sure it's a decimal. [With Scale]
+
+        //"Perlin Noise does not deal with whole numbers when it comes to generating. it's either between 0 and 1.
+
+
+        float sample = Mathf.PerlinNoise(xCord, yCord);        //set sample to a random number between [x] and [y]
+        return new Color(sample, sample, sample);             //0 = black, 1 = white
+                                                               
+    }
+
+}
