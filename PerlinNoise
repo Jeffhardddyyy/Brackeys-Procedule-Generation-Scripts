@@ -52,8 +52,8 @@ public class PerlinNoise : MonoBehaviour {
 
     Color CalculateColor(int x, int y)
     {
-        float xCord = (float)x / width * Scale * offsetX;         //set xCord to x/width, and make sure it is a dicimal. [With Scale]
-        float yCord = (float)y / height * Scale * offsetY;        //set yCord to y/height, and make sure it's a decimal. [With Scale]
+        float xCord = (float)x / width * Scale + offsetX;         //set xCord to x/width, and make sure it is a dicimal. [With Scale]
+        float yCord = (float)y / height * Scale + offsetY;        //set yCord to y/height, and make sure it's a decimal. [With Scale]
 
         //"Perlin Noise does not deal with whole numbers when it comes to generating. it's either between 0 and 1.
 
